@@ -2,23 +2,17 @@ import os
 import telebot
 import yfinance as yf
 
-
-# https://www.youtube.com/watch?v=NwBWW8cNCP4
-API_KEY = ""#os.getenv("API_KEY")
+API_KEY = ""
 bot = telebot.TeleBot(API_KEY)
 
-@bot.message_handler(commands=["greet"])
-def greet(message):
-    bot.reply_to(message, "How are you?")
-
-@bot.message_handler(commands=["hello"])
+@bot.message_handler(commands=["hello", "greet"])
 def hello(message):
     bot.send_message(message.chat.id, "Hello!")
 
 @bot.message_handler(commands=["wsb"])
 def get_stocks(message):
     response = ""
-    stocks = ["gme", "amc", "nok"]
+    stocks = ["gme", "amc", "nok", "emr", "ag"]
     stock_data = []
     for stock in stocks:
         data = yf.download(tickers=stock, period="2d", interval="1d")
