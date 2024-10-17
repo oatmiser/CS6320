@@ -18,12 +18,17 @@ def addPlan(name:str, budget:float):
     plans[name] = UserPlan(name, budget)
 
 if __name__ == "__main__":
-    input_ = input("Enter a name and budget: ")
-    while input_ != "x":
-        name = " ".join(input_.split(" ")[0:-1])
-        budget = float(input_.split(" ")[-1])
-        addPlan(name, budget)
-        input_ = input("Enter a name and budget: ")
-
-    for p in plans.values():
-        p.display()
+    while (True):
+        user_choice = input("Command: ")
+        if user_choice == "QUIT":
+            break
+        elif user_choice == "NEW":
+            args = input("Enter a name and budget: ")
+            name = " ".join(args.split(" ")[0:-1])
+            budget = float(args.split(" ")[-1])
+            addPlan(name, budget)
+        elif user_choice == "EDIT":
+            pass
+        elif user_choice == "SHOW":
+            for p in plans.values():
+                p.display()
