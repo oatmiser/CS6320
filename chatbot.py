@@ -1,11 +1,11 @@
 import math
 
 class UserPlan:
-    def __init__(self, name:str, budget:float = float(math.inf)):
+    def __init__(self, name:str, budget:float = 0, goal:str = "None", ingredients:list = []):
         self.name = name
         self.budget = budget
-        self.goal = "No goal set."
-        self.ingredients = []
+        self.goal = goal
+        self.ingredients = ingredients
 
     def display(self):
         str_build = f"Plan {self.name}:\n"
@@ -24,9 +24,9 @@ class UserPlan:
         self.ingredients = food
 
 user_plans = dict()
-def add_plan(name:str, budget:float):
+def add_plan(name:str, budget:float, goal:str, ingredients:list):
     global user_plans
-    user_plans[name] = UserPlan(name, budget)
+    user_plans[name] = UserPlan(name, budget, goal, ingredients)
 
 if __name__ == "__main__":
     while True:
@@ -35,19 +35,32 @@ if __name__ == "__main__":
         if user_choice == "QUIT":
             break
         elif user_choice == "NEW":
-            args = input("Enter a name and budget: ")
-            # TODO argparse instead of indexes? This would be called in the backend so maybe not necessary...
-            name = " ".join(args.split(" ")[0:-1])
-            budget = float(args.split(" ")[-1])
+            args = input("Enter name [budget] [goal] [(ingredient,)+ingredient]: ")
+            split = args.split(" ")
+
+            name = split[0]
+            budget = 0
+            goal = "x"
+            ingredients = list()
+            if len(args.split(" ")) > 1:
+                for token in split[1:]:
+                    try:
+                        budget = float(token)
+                    except ValueError:
+                        if "," in token:
+                            ingredients = token.split(",")
+                        else:
+                            goal += f" {token}"
+            
             if name in user_plans:
                 confirm = input(f"Plan {name} already exists, overwrite?\nY/N: ")
                 if confirm[0].lower() == "y":
-                    add_plan(name, budget)
+                    add_plan(name, budget, goal, ingredients)
                     print(f"Plan {name} was updated.")
                 else:
                     print(f"Plan {name} is unchanged.")
             else:
-                add_plan(name, budget)
+                add_plan(name, budget, goal, ingredients)
                 print(f"Plan {name} was created.")
 
         elif user_choice == "EDIT":
@@ -62,22 +75,32 @@ if __name__ == "__main__":
                 split = update.split(" ")
                 match split[0]:
                     case "name":
-                        # TODO need to rehash in the dictionary!
+                        break
+                        # TODO do not allow? Otherwise we need to rehash in the dict and figure out processing multi-words
                         plan_obj.setName(split[1:]) # " ".join
                     case "budget":
                         plan_obj.setBudget(float(split[1]))
                     case "goal":
-                        plan_obj.setGoal(split[1:]) # " ".join
+                        plan_obj.setGoal(" ".join(split[1:]))
                     case "ingredients":
-                        plan_obj.setIngredients(split[1:]) # TODO replace the split var for readability overall, and use csv here?
+                        # csv
+                        if "," in update:
+                            split = ["ingredients"] + update.split(" ")[1].split(",")
+                        # space delimited
+                        plan_obj.setIngredients(split[1:])
                     case _:
                         print(f"Sorry, {split[0]} is not a member of Plan {search}.")
             else:
                 print("Sorry, this plan does not exist!")
 
         elif user_choice == "SHOW":
-            for obj in user_plans.values():
-                obj.display()
+            plan_name = input()
+            if len(plan_name) == 0:
+                for obj in user_plans.values():
+                    obj.display()
+            else:
+                user_plans[plan_name].display()
+
 
         elif user_choice == "FORGET":
             search = input("Enter plan to remove: ")
