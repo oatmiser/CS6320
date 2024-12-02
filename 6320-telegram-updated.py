@@ -7,6 +7,7 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 import requests
 from config import SPOONACULAR_API_KEY, TELETOKEN
+import time
 
 # Load SpaCy model
 nlp = spacy.load("en_core_web_sm")
@@ -582,11 +583,11 @@ def extract_entities(text: str) -> dict:
 
     # Enhanced goal extraction with variations
     goal_patterns = {
-        'low_carb': r'low\s*carb|low\s*carbon?hydrates?',
-        'high_protein': r'high\s*protein|protein\s*rich',
+        'low carb': r'low\s*carb|low\s*carbon?hydrates?',
+        'high protein': r'high\s*protein|protein\s*rich',
         'keto': r'keto(?:genic)?',
-        'low_fat': r'low\s*fat|reduced\s*fat',
-        'low_calorie': r'low\s*cal(?:orie)?s?|diet\s*friendly'
+        'low fat': r'low\s*fat|reduced\s*fat',
+        'low calorie': r'low\s*cal(?:orie)?s?|diet\s*friendly'
     }
     
     for goal, pattern in goal_patterns.items():
