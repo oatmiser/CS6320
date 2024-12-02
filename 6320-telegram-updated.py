@@ -232,7 +232,7 @@ state = ""
 
 # Commands
 async def start_command(update:Update, context:ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Hello, I can't do anything yet!")
+    await update.message.reply_text("Hello, type \"help\" to get started!")
 async def help_command(update:Update, context:ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Please type something so I can respond.")
 async def custom_command(update:Update, context:ContextTypes.DEFAULT_TYPE):
