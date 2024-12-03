@@ -8,6 +8,9 @@ This chatbot assists users in managing their diet or lifestyle by providing reci
 ### Goal
 Create a chatbot that suggests recipes in a meal plan, helps users manage their diet, and provides recipe recommendations to match their fitness goals, create plans, and track expenses.
 
+## Youtube Video
+https://youtube.com/shorts/Ln_xNlQvJtQ?feature=share
+
 ### Scope
 The chatbot will work on the Telegram platform. Users will input commands or text queries in the form of:
 - List of ingredients.
@@ -38,10 +41,8 @@ The project will use the following data sources:
 - Literature on ingredient pairings and combinations (e.g., *The Flavor Bible*).
 
 ## Installation Instructions
-None Yet
+Create a config.py locally and add the keys for Telegram bot and SpoonacularAPI in it and then run the 6320-telegram-updated.py file
 
-## Usage
-None Yet
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
