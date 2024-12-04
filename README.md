@@ -14,7 +14,7 @@ https://youtube.com/shorts/Ln_xNlQvJtQ?feature=share
 ## Installation Instructions
 1) Required libraries (pip install) to function:
 numpy, torch,
-nltk, spacy.
+nltk, spacy,
 telegram, python-telegram-bot, "python-telegram-bot[job-queue]"
 2) Download in the command line:
 python -m spacy download en_core_web_sm
