@@ -16,8 +16,6 @@ The chatbot will work on the Telegram platform. Users will input commands or tex
 - List of ingredients.
 - Weekly/monthly budget and available cooking time.
 - Basic diet goals (focus on vitamin/protein/calorie intake, vegan preferences, etc.).
-- Special/temporary events (e.g., breakfast, gym, outdoor day).
-
 The chatbot will respond with personalized recipe suggestions or ingredient recommendations tailored to the Plan specified by the user's situation.
 
 ### Value
@@ -25,24 +23,26 @@ The chatbot will respond with personalized recipe suggestions or ingredient reco
 - Suggestions for recipes using current ingredients or recommending replacements and long-term health-focused recipes.
 - Ease of starting or maintaining certain lifestyle changes (e.g., vegetarianism, dieting, gym routines).
 
-## Project Tasks and Responsibilities
-
-### Natural Language Processing (NLP) Tasks
-- **Nathaniel Pott**: Text summarization and classification for processing data sources.
-- **Fariz Ali**: Classification and relation extraction to recommend ingredients based on cost, nutrition, and user constraints.
-- **Charles Whitworth**: Question answering related to nutrition and budgeting of various ingredients.
-- **Everyone**: Text generation for queries related to ingredients, recipes, diet, exercise, and nutrients.
+## Natural Language Processing Tasks
+- **Nathaniel Pott**: Create some limited training data of typical user requests and developing the text classification method with a 2-layer network processing the user input, also a few Spacy/regex patterns that are used to get an understanding of the query intent before manipulating its components.
+- **Fariz Ali**: Worked on classification and relation extraction by regular expression patterns and in Spacy to build the user plans which are used by the API to recommend recipes based on ingredients, cost, nutrition, user constraints.
+- **Charles Whitworth**: Implement text generation techniques for changing state and responding/answering user queries about ingredients, recipes, diet, and nutrients.
 
 ## Data Sources
-The project will use the following data sources:
-- Fitness/lifestyle/cooking/dieting books.
-- Fitness/cooking/dieting blogs.
-- Publicly available diet-specific recipes.
-- Literature on ingredient pairings and combinations (e.g., *The Flavor Bible*).
+Leveraged the API from SpoonacularAPI to generate recipes based on the user input. 
 
 ## Installation Instructions
-Create a config.py locally and add the keys for Telegram bot and SpoonacularAPI in it and then run the 6320-telegram-updated.py file
-
+1) Required libraries (pip install) to function:
+numpy, torch,
+nltk, spacy.
+telegram, python-telegram-bot, "python-telegram-bot[job-queue]"
+2) Download in the command line:
+python -m spacy download en_core_web_sm
+3) During the first time running, make sure that both lines inside nltk_utils.py will execute:
+nltk.download('punkt')
+nltk.download('punkt_tab')
+4) Run train.py for the classifier file to be created, then telegram-bot.py.
+5) After it prints "Polling", you may start chatting with @CometFoodBot in Telegram.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
