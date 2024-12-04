@@ -1,0 +1,107 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hello",
+        "Hey",
+        "Good day",
+        "Howdy",
+        "Is anyone there?"
+      ],
+      "responses": [
+        "Hello! How can I assist you today?",
+        "Hi there! Ready to explore some recipes?",
+        "Hey! What brings you here today?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "Goodbye", "See you", "Catch you later", "I'm leaving", "Quit", "Exit"],
+      "responses": [
+        "Goodbye! Have a great day!",
+        "Bye! Come back soon for more recipes!",
+        "Take care! See you next time."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": ["Thanks", "Thank you", "I appreciate it", "Much obliged", "Great", "Sounds good"],
+      "responses": [
+        "You're welcome!",
+        "Glad to help!",
+        "Happy cooking!"
+      ]
+    },
+    {
+      "tag": "random",
+      "patterns": ["Give me anything", "Surprise me", "Make a random recipe", "Recommend something random", "I want something new", "Try something new"],
+      "responses": [
+        "Here's a random recipe!",
+        "How about we create a delicious meal plan together?",
+        "I can also suggest recipes based on your preferences!",
+        "I've found something for you to try!",
+        "You can also generate specific recipes by telling me your ingredients or goals."
+      ]
+    },
+    {
+      "tag": "make_food_plan",
+      "patterns": [
+        "Can you create a meal plan?",
+        "Can you create a recipe for me?",
+        "I need some recipes",
+        "I need a meal plan",
+        "Help me plan meals",
+        "Make me a food plan",
+        "Come up with some recipes",
+        "What recipes would be good for",
+        "What meal plan works with with"
+      ],
+      "responses": [
+        "Sure! Let me know your preferences or dietary goals.",
+        "I'd be happy to create a meal plan for you. What are your preferences?"
+      ]
+    },
+    {
+      "tag": "edit_food_plan",
+      "patterns": [
+        "Change my meal plan",
+        "Edit my food plan",
+        "Can you update my meal plan?",
+        "I need to modify my food plan"
+      ],
+      "responses": [
+        "What changes would you like to make to your meal plan?",
+        "Let me know what you want to update!"
+      ]
+    },
+    {
+      "tag": "delete_food_plan",
+      "patterns": [
+        "Delete my meal plan",
+        "Remove my food plan",
+        "Clear my meal plan",
+        "Erase my food plan",
+        "Forget this plan"
+      ],
+      "responses": [
+        "Your meal plan has been removed.",
+        "Okay, the requested meal plan was deleted."
+      ]
+    },
+    {
+      "tag": "generate_recipes_from_plan",
+      "patterns": [
+        "Generate recipes from my food plan",
+        "Can you make recipes from my plan?",
+        "Show recipes from my food plan",
+        "Give me recipes based on my meal plan"
+      ],
+      "responses": [
+        "Here are some recipes based on your meal plan!",
+        "I've generated some recipes from your food plan. Take a look!"
+      ]
+    }
+  ]
+}
