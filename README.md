@@ -11,6 +11,19 @@ Create a chatbot that suggests recipes in a meal plan, helps users manage their 
 ## Youtube Video
 https://youtube.com/shorts/Ln_xNlQvJtQ?feature=share
 
+## Installation Instructions
+1) Required libraries (pip install) to function:
+numpy, torch,
+nltk, spacy.
+telegram, python-telegram-bot, "python-telegram-bot[job-queue]"
+2) Download in the command line:
+python -m spacy download en_core_web_sm
+3) During the first time running, make sure that both lines inside nltk_utils.py will execute:
+nltk.download('punkt')
+nltk.download('punkt_tab')
+4) Run train.py for the classifier file to be created, then telegram-bot.py.
+5) After it prints "Polling", you may start chatting with @CometFoodBot in Telegram.
+
 ### Scope
 The chatbot will work on the Telegram platform. Users will input commands or text queries in the form of:
 - List of ingredients.
@@ -30,19 +43,6 @@ The chatbot will respond with personalized recipe suggestions or ingredient reco
 
 ## Data Sources
 Leveraged the API from SpoonacularAPI to generate recipes based on the user input. 
-
-## Installation Instructions
-1) Required libraries (pip install) to function:
-numpy, torch,
-nltk, spacy.
-telegram, python-telegram-bot, "python-telegram-bot[job-queue]"
-2) Download in the command line:
-python -m spacy download en_core_web_sm
-3) During the first time running, make sure that both lines inside nltk_utils.py will execute:
-nltk.download('punkt')
-nltk.download('punkt_tab')
-4) Run train.py for the classifier file to be created, then telegram-bot.py.
-5) After it prints "Polling", you may start chatting with @CometFoodBot in Telegram.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
