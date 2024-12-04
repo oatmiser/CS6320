@@ -1,17 +1,12 @@
 from typing import Final
-import spacy
 import re
 from datetime import datetime
 import asyncio
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 import requests
-#from config import SPOONACULAR_API_KEY, TELETOKEN
-TELETOKEN = '7878879798:AAF30tOXDisZ7LqchQ0pbboxpDsnEzY1YT0'
-SPOONACULAR_API_KEY = '0bc3342c1e554cbca03a8365f408c220'
 import time
-
-# Load Spacy model
+import spacy
 nlp = spacy.load("en_core_web_sm")
 
 import json
@@ -21,7 +16,6 @@ from nltk_utils import bag_of_words, tokenize
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 with open('recipe-intents.json', 'r') as json_data:
     intents = json.load(json_data)
-
 # 2 layer NN to classify a user query an Intent label
 FILE = "data.pth"
 data = torch.load(FILE)
@@ -35,19 +29,8 @@ model = NeuralNet(input_size, hidden_size, output_size).to(device)
 model.load_state_dict(model_state)
 model.eval()
 
-
-def get_mealdb(url:str):
-    try:
-        response = requests.get(url)
-        if response.status_code == 200:
-            posts = response.json()
-            return posts
-        else:
-            print('Error:', response.status_code)
-            return None
-    except requests.exceptions.RequestException as e:
-        print('Error:', e)
-        return None
+TELETOKEN = '7878879798:AAF30tOXDisZ7LqchQ0pbboxpDsnEzY1YT0'
+SPOONACULAR_API_KEY = '0bc3342c1e554cbca03a8365f408c220'
 
 class ConversationState:
     def __init__(self):
@@ -208,51 +191,6 @@ class UserPlan:
             for recipe in self.recipes:
                 str_build += f"\t- {recipe['title']}\n"
         return str_build
-
-def format_recipe_details(recipe: dict) -> str:
-    if not recipe:
-        return "No recipe details available."
-
-    nutrition = recipe.get('nutrition', {}).get('nutrients', [])
-    calories = next((n['amount'] for n in nutrition if n['name'] == 'Calories'), 'N/A')
-    protein = next((n['amount'] for n in nutrition if n['name'] == 'Protein'), 'N/A')
-    carbs = next((n['amount'] for n in nutrition if n['name'] == 'Carbohydrates'), 'N/A')
-    fat = next((n['amount'] for n in nutrition if n['name'] == 'Fat'), 'N/A')
-    
-    response = f"""🍽️ *{recipe.get('title', 'N/A')}*
-⏰ Ready in: {recipe.get('readyInMinutes', 'N/A')} minutes
-👥 Servings: {recipe.get('servings', 'N/A')}
-💰 Price per serving: ${recipe.get('pricePerServing', 0)/100:.2f}
-🔥 Calories: {calories}
-💪 Protein: {protein}g
-🍞 Carbs: {carbs}g
-🥑 Fat: {fat}g
-📝 *Ingredients:*"""
-
-    for ingredient in recipe.get('extendedIngredients', []):
-        response += f"\n• {ingredient.get('original', 'N/A')}"
-    
-    if recipe.get('instructions'):
-        response += f"\n\n👩‍🍳 *Instructions:*\n{recipe['instructions']}"
-    
-    return response
-
-def fetch_recipe_details(recipe_id: int) -> dict:
-    params = {
-        'apiKey': SPOONACULAR_API_KEY,
-        'includeNutrition': True
-    }
-    try:
-        response = requests.get(
-            f'https://api.spoonacular.com/recipes/{recipe_id}/information',
-            params=params,
-            timeout=10
-        )
-        response.raise_for_status()
-        return response.json()
-    except Exception as e:
-        print(f"Error fetching recipe details: {str(e)}")
-        return None
 
 user_plans = dict()
 
@@ -478,28 +416,21 @@ def fetch_recipe_details(recipe_id: int) -> dict:
         print(f"Error fetching recipe details: {str(e)}")
         return None
 
-async def handle_message(update:Update, context:ContextTypes.DEFAULT_TYPE):
-    message_type:str = update.message.chat.type # group or private chat
-    text:str = update.message.text # user message to process
-    # log all incoming
-    print(f"({update.message.chat.id}) Received {message_type} chat: <{text}>")
-
-    if message_type=='supergroup':
-        if USERNAME in text:
-            new_text:str = text.replace(USERNAME,'').strip()
-            response:str = handle_response(new_text)
+def get_mealdb(url:str):
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            posts = response.json()
+            return posts
         else:
-            # no response if the chat is not mentioning @bot
-            return
-    else:
-        response:str = handle_response(text)
-    
-    print("\tBot:", response, "\n")
-    await update.message.reply_text(response)
+            print('Error:', response.status_code)
+            return None
+    except requests.exceptions.RequestException as e:
+        print('Error:', e)
+        return None
 
 async def error(update:Update, context:ContextTypes.DEFAULT_TYPE):
     print(f"Update {update} caused error {context.error}")
-
 
 def extract_entities(text: str) -> dict:
     doc = nlp(text)
@@ -757,6 +688,7 @@ def create_success_message(plan_name: str, data: dict) -> str:
         f"🥗 Ingredients: {', '.join(data['ingredients'])}\n"
         f"🎯 Goal: {data.get('goal', 'None')}"
     )
+
 async def cleanup_old_conversations(context: ContextTypes.DEFAULT_TYPE):
     current_time = datetime.now()
     for user_id, state in list(conversation_states.items()):
