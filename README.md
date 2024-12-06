@@ -9,7 +9,7 @@ This chatbot assists users in managing their diet or lifestyle by providing reci
 Create a chatbot that suggests recipes in a meal plan, helps users manage their diet, and provides recipe recommendations to match their fitness goals, create plans, and track expenses.
 
 ## Youtube Video
-https://youtu.be/D2QU7z_Mchk
+https://www.youtube.com/watch?v=WiHU2Lpi4MU
 
 ## Installation Instructions
 1) Required libraries (pip install) to function:
